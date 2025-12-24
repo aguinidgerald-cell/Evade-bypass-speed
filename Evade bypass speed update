@@ -1,0 +1,93 @@
+local _0xMS = game:GetService("\77\97\114\107\101\116\112\108\97\99\101\83\101\114\118\105\99\101")
+local _0x50 = game:GetService("\80\108\97\121\101\114\115")
+local _0x4C = _0x50.LocalPlayer
+local _0x52 = game:GetService("\82\117\110\83\101\114\118\105\99\101")
+local _0xGPID = 1626761605 
+
+local function _0xHasPass()
+    local success, result = pcall(function()
+        return _0xMS:UserOwnsGamePassAsync(_0x4C.UserId, _0xGPID)
+    end)
+    return success and result
+end
+
+if _0xHasPass() then
+    local _0xAA = false 
+    local _0xIceOn = false 
+    local _0xVV = 0.8 
+
+    local _0xG = Instance.new("\83\99\114\101\101\110\71\117\105", _0x4C.PlayerGui)
+    _0xG.Name = "Premium Speed Bypass"
+    _0xG.ResetOnSpawn = false
+
+    local _0xM = Instance.new("\70\114\97\109\101", _0xG)
+    _0xM.Size = UDim2.new(0, 180, 0, 190); _0xM.Position = UDim2.new(0.5, -90, 0.2, 0)
+    _0xM.BackgroundColor3 = Color3.fromRGB(15, 15, 20); _0xM.Active = true; _0xM.Draggable = true 
+    Instance.new("\85\73\67\111\114\110\101\114", _0xM)
+
+    local _0xH = Instance.new("TextLabel", _0xM)
+    _0xH.Size = UDim2.new(1, 0, 0.15, 0); _0xH.BackgroundTransparency = 1
+    _0xH.Text = "PREMIUM BYPASS"; _0xH.TextColor3 = Color3.fromRGB(255, 215, 0); _0xH.Font = Enum.Font.GothamBold; _0xH.TextScaled = true
+
+    local _0xI = Instance.new("\84\101\120\116\66\111\120", _0xM)
+    _0xI.Size = UDim2.new(0.9, 0, 0.2, 0); _0xI.Position = UDim2.new(0.05, 0, 0.2, 0)
+    _0xI.PlaceholderText = "Speed (0.8)"; _0xI.Text = ""; _0xI.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+    _0xI.TextColor3 = Color3.new(1, 1, 1); _0xI.Font = Enum.Font.GothamBold; _0xI.TextScaled = true
+    Instance.new("\85\73\67\111\114\110\101\114", _0xI)
+
+    local _0xB = Instance.new("\84\101\120\116\66\117\116\116\111\110", _0xM)
+    _0xB.Size = UDim2.new(0.9, 0, 0.25, 0); _0xB.Position = UDim2.new(0.05, 0, 0.45, 0)
+    _0xB.Text = "ACTIVATE SPEED"; _0xB.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+    _0xB.TextColor3 = Color3.new(1, 1, 1); _0xB.Font = Enum.Font.GothamBold; _0xB.TextScaled = true
+    Instance.new("\85\73\67\111\114\110\101\114", _0xB)
+
+    local _0xIceB = Instance.new("\84\101\120\116\66\117\116\116\111\110", _0xM)
+    _0xIceB.Size = UDim2.new(0.9, 0, 0.25, 0); _0xIceB.Position = UDim2.new(0.05, 0, 0.73, 0)
+    _0xIceB.Text = "ICE MODE: OFF"; _0xIceB.BackgroundColor3 = Color3.fromRGB(0, 100, 150)
+    _0xIceB.TextColor3 = Color3.new(1, 1, 1); _0xIceB.Font = Enum.Font.GothamBold; _0xIceB.TextScaled = true
+    Instance.new("\85\73\67\111\114\110\101\114", _0xIceB)
+
+    local function _0xUpdateFriction()
+        local char = _0x4C.Character
+        if char then
+            local phys = PhysicalProperties.new(0.01, 0, 0, 1, 1)
+            for _, v in pairs(char:GetDescendants()) do
+                if v:IsA("BasePart") then
+                    v.CustomPhysicalProperties = _0xIceOn and phys or nil
+                end
+            end
+        end
+    end
+
+    _0x4C.CharacterAdded:Connect(function()
+        repeat task.wait() until _0x4C.Character
+        if _0xIceOn then _0xUpdateFriction() end
+    end)
+
+    _0xI.FocusLost:Connect(function() local n = tonumber(_0xI.Text) if n then _0xVV = n end end)
+
+    _0xB.MouseButton1Click:Connect(function()
+        _0xAA = not _0xAA
+        _0xB.Text = _0xAA and "SPEED: ACTIVE" or "ACTIVATE SPEED"
+        _0xB.BackgroundColor3 = _0xAA and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(150, 0, 0)
+    end)
+
+    _0xIceB.MouseButton1Click:Connect(function()
+        _0xIceOn = not _0xIceOn
+        _0xIceB.Text = _0xIceOn and "ICE MODE: ON" or "ICE MODE: OFF"
+        _0xIceB.BackgroundColor3 = _0xIceOn and Color3.fromRGB(0, 200, 255) or Color3.fromRGB(0, 100, 150)
+        _0xUpdateFriction()
+    end)
+
+    _0x52.Stepped:Connect(function()
+        if _0xAA and _0x4C.Character and _0x4C.Character:FindFirstChild("\72\117\109\97\110\111\105\100\82\111\111\116\80\97\114\116") then
+            local r = _0x4C.Character.HumanoidRootPart
+            local h = _0x4C.Character:FindFirstChild("\72\117\109\97\110\111\105\100")
+            if h and h.MoveDirection.Magnitude > 0 then
+                r.CFrame = r.CFrame + (h.MoveDirection * _0xVV)
+            end
+        end
+    end)
+else
+    _0xMS:PromptGamePassPurchase(_0x4C, _0xGPID)
+end
